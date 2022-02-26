@@ -115,6 +115,27 @@ class Player():
                 self.vel_y = 25
             dy += self.vel_y
             
+<<<<<<< HEAD
+=======
+            #check for collision
+            self.in_air = True
+            for tile in world.tile_list:
+                #check for collision in x direction
+                if tile[1].colliderect(self.rect.x + dx, self.rect.y, self.width, self.height):
+                    dx =0
+                #check for collision in y direction
+                if tile[1].colliderect(self.rect.x, self.rect.y + dy, self.width, self.height):
+                    #check if below the ground i.e. jumping
+                    if self.vel_y < 0:
+                        dy = tile[1].bottom - self.rect.top
+                        self.vel_y = 0
+                    #check if above the ground i.e. falling
+                    elif self.vel_y >= 0:
+                        dy = tile[1].top - self.rect.bottom
+                        self.vel_y = 0
+                        self.in_air = False
+
+>>>>>>> f28b1cfcba8b975519d0de9af9ce53285d1531b4
             self.rect.x +=dx
             self.rect.y +=dy
         
@@ -132,13 +153,10 @@ class Tile():
     def __init__(self, type, x, y):
         self.type = type
         self.image = getBlockImage(type)
-        self.x =  x
-        self.y = y
-        if(self.image != None):
-            self.rect = self.image.get_rect()
-            self.rect.x = x
-            self.rect.y = y
-        
+        self.rect = self.image.get_rect()
+        self.rect.x = x
+        self.rect.y = y
+
 
 
 class World():
