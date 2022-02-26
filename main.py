@@ -115,8 +115,6 @@ class Player():
                 self.vel_y = 25
             dy += self.vel_y
             
-<<<<<<< HEAD
-=======
             #check for collision
             self.in_air = True
             for tile in world.tile_list:
@@ -135,7 +133,6 @@ class Player():
                         self.vel_y = 0
                         self.in_air = False
 
->>>>>>> f28b1cfcba8b975519d0de9af9ce53285d1531b4
             self.rect.x +=dx
             self.rect.y +=dy
         
@@ -153,10 +150,10 @@ class Tile():
     def __init__(self, type, x, y):
         self.type = type
         self.image = getBlockImage(type)
-        self.rect = self.image.get_rect()
-        self.rect.x = x
-        self.rect.y = y
-
+        if(self.image != None):
+            self.rect = self.image.get_rect()
+            self.rect.x = x
+            self.rect.y = y
 
 
 class World():
