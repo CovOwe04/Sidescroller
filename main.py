@@ -33,6 +33,29 @@ def getBlockImage(blockval):
     elif blockval == 2:
         return lava_img
 
+def convertToTile(data):
+    rowCount = 0
+    newData  =[
+[0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0],
+[0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0],
+[0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0],
+[0 ,0 ,0 ,0 ,0 ,1 ,1 ,0 ,0 ,1 ,1 ,0 ,0 ,0 ,0 ,0],
+[0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0],
+[0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0],
+[0 ,0 ,1 ,1 ,0 ,0 ,0 ,1 ,1 ,0 ,0 ,0 ,1 ,1 ,0 ,0],
+[0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0],
+[0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0],
+[1 ,1 ,2 ,2 ,1 ,1 ,1 ,2 ,2 ,1 ,1 ,1 ,2 ,2 ,1 ,1],
+]
+    for row in data:
+        colCount = 0
+        for tile in row:
+            newData[rowCount][colCount] = Tile(tile, colCount * blockSize, rowCount * blockSize)
+            colCount+=1
+        rowCount+=1 
+
+    return newData       
+
 #PLAYER
 class Player():
     def __init__(self, x, y):
@@ -85,12 +108,10 @@ class Player():
                 self.counter +=1
                 self.direction = 1
             if key[pygame.K_a] == False and key[pygame.K_d] == False:
-                self.counter = 0
-                self.index = 0
-                if self.direction == 1:
-                    self.image = self.images_right[self.index]
-                if self.direction == -1:
-                    self.image = self.images_left[self.index]
+                self.counter +=1
+                self.direction = 1
+                walk_cooldown = 10
+                self.image = self.images_right[self.index]
 
 
             #handle animation
@@ -117,21 +138,24 @@ class Player():
             
             #check for collision
             self.in_air = True
-            for tile in world.tile_list:
-                #check for collision in x direction
-                if tile[1].colliderect(self.rect.x + dx, self.rect.y, self.width, self.height):
-                    dx =0
-                #check for collision in y direction
-                if tile[1].colliderect(self.rect.x, self.rect.y + dy, self.width, self.height):
-                    #check if below the ground i.e. jumping
-                    if self.vel_y < 0:
-                        dy = tile[1].bottom - self.rect.top
-                        self.vel_y = 0
-                    #check if above the ground i.e. falling
-                    elif self.vel_y >= 0:
-                        dy = tile[1].top - self.rect.bottom
-                        self.vel_y = 0
-                        self.in_air = False
+            for row in world.data:
+                for tile in row:
+                
+                    if (tile.type != 0):
+                        #check for collision in x direction
+                        if tile.rect.colliderect(self.rect.x + dx, self.rect.y, self.width, self.height):
+                            dx =0
+                        #check for collision in y direction
+                        if tile.rect.colliderect(self.rect.x, self.rect.y + dy, self.width, self.height):
+                            #check if below the ground i.e. jumping
+                            if self.vel_y < 0:
+                                dy = tile.rect.bottom - self.rect.top
+                                self.vel_y = 0
+                            #check if above the ground i.e. falling
+                            elif self.vel_y >= 0:
+                                dy = tile.rect.top - self.rect.bottom
+                                self.vel_y = 0
+                                self.in_air = False
 
             self.rect.x +=dx
             self.rect.y +=dy
@@ -159,16 +183,14 @@ class Tile():
 class World():
     def __init__(self, data):
         self.data = data
-    
 
     def draw(self):
         row_count = 0
         for row in self.data:
             col_count = 0
             for tile in row:
-                currentTile = Tile(tile,col_count*blockSize, row_count*blockSize)
-                if(currentTile.image != None):
-                    win.blit(currentTile.image, currentTile.rect)       
+                if(tile.image != None):
+                    win.blit(tile.image, tile.rect)       
                 col_count += 1
 
             row_count +=1
@@ -186,7 +208,7 @@ world_data =[
 [1 ,1 ,2 ,2 ,1 ,1 ,1 ,2 ,2 ,1 ,1 ,1 ,2 ,2 ,1 ,1],
 ]
 
-world = World(world_data)
+world = World(convertToTile(world_data))
 player = Player(100, 500)
 
 run = True
