@@ -2,8 +2,8 @@ Steps to make Sidescroller:
 
 1. render background (Done)
 2. render single block (Done)
-3. create data set to create 1 frame of world
-4. render world
+3. create data set to create 1 frame of world (Done)
+4. render world (Done)
 5. create player
 6. render player
 7. player movement (left,right, and collisions included)
