@@ -27,6 +27,13 @@ def redrawWindow(win):
     world.draw()
     player.update(game_over)
 
+def getBlockImage(blockval):
+    if blockval == 1:
+        return grass_img
+    elif blockval == 2:
+        return lava_img
+
+#PLAYER
 class Player():
     def __init__(self, x, y):
         self.images_right = []
@@ -121,24 +128,29 @@ class Player():
         
         return game_over
 
+class Tile():
+    def __init__(self, type, x, y):
+        self.type = type
+        self.image = getBlockImage(type)
+        self.rect = self.image.get_rect()
+        self.rect.x = x
+        self.rect.y = y
+
+
+
 class World():
     def __init__(self, data):
         self.data = data
     
-    def getBlockImage(self, blockval):
-        if blockval == 1:
-            return grass_img
-        elif blockval == 2:
-            return lava_img
 
     def draw(self):
         row_count = 0
         for row in self.data:
             col_count = 0
             for tile in row:
-                currentImg = self.getBlockImage(tile)
-                if(currentImg != None):
-                    win.blit(currentImg, (col_count*blockSize, row_count*blockSize))       
+                currentTile = Tile(tile,col_count*blockSize, row_count*blockSize)
+                if(currentTile.image != None):
+                    win.blit(currentTile.image, currentTile.rect)       
                 col_count += 1
 
             row_count +=1
