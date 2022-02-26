@@ -114,7 +114,7 @@ class Player():
             if self.vel_y > 25:
                 self.vel_y = 25
             dy += self.vel_y
-             
+            
             self.rect.x +=dx
             self.rect.y +=dy
         
