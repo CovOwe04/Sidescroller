@@ -66,7 +66,7 @@ def convertToTile(data):
 
 #GAME SETTINGS
 clock = pygame.time.Clock()
-fps = 120
+fps = 60
 blockSize = 100
 
 bgX = 0
