@@ -81,8 +81,8 @@ class Player():
                 
                     if (tile.type != 0):
                         #check for collision in x direction
-                        if tile.rect.colliderect(self.rect.x + dx, self.rect.y, self.width, self.height):
-                            dx =0
+                        if tile.rect.colliderect(self.rect.x + dx +15, self.rect.y, self.width, self.height):
+                            dx = -10.5
                         #check for collision in y direction
                         if tile.rect.colliderect(self.rect.x, self.rect.y + dy, self.width, self.height):
                             #check if below the ground i.e. jumping
@@ -94,7 +94,7 @@ class Player():
                                 dy = tile.rect.top - self.rect.bottom
                                 self.vel_y = 0
                                 self.in_air = False
-            if (self.rect.x +dx < 0):
+            if (self.rect.x + dx < 0):
                 dx = 0
             self.rect.x +=dx
             self.rect.y +=dy
