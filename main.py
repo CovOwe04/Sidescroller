@@ -60,7 +60,7 @@ def convertToTile(data):
         for tile in row:
             newData[rowCount][colCount] = Tile(tile, tile_images_array[tile], colCount * blockSize, rowCount * blockSize)
             colCount+=1
-        rowCount+=1 
+        rowCount+=1
 
     return newData       
 

@@ -32,7 +32,7 @@ class Player():
             if key[pygame.K_SPACE] == False:
                 self.jumped = False
             if key[pygame.K_a]:
-                dx -= 10  
+                dx -= 5  
                 if self.rect.x == 0:
                     self.counter +=1
                     walk_cooldown = 5
@@ -40,7 +40,7 @@ class Player():
                     self.counter = 0
                 self.direction = -1
             if key[pygame.K_d]:
-                dx += 10
+                dx += 5
                 self.counter +=1
                 self.direction = 1
             if key[pygame.K_a] == False and key[pygame.K_d] == False:
@@ -81,7 +81,7 @@ class Player():
                 
                     if (tile.type != 0):
                         #check for collision in x direction
-                        if tile.rect.colliderect(self.rect.x + dx +15, self.rect.y, self.width, self.height):
+                        if tile.rect.colliderect(self.rect.x + dx +20, self.rect.y, self.width, self.height):
                             dx = -10.5
                         #check for collision in y direction
                         if tile.rect.colliderect(self.rect.x, self.rect.y + dy, self.width, self.height):
