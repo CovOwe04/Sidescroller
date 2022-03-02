@@ -11,13 +11,13 @@ class World():
             col_count = 0
             for tile in row:
                 if(tile.image != None):
-                    tile.rect.x -= 5
+                    tile.rect.x -= 10
                     win.blit(tile.image, (tile.x - self.frame, tile.y))       
                 col_count += 1
 
             row_count +=1
 
-        self.frame += 5
+        self.frame += 10
         if self.frame > 90:
             self.frame = 0
             self.shiftWorld()
