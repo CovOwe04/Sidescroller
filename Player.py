@@ -32,11 +32,7 @@ class Player():
             if key[pygame.K_SPACE] == False:
                 self.jumped = False
             if key[pygame.K_a]:
-<<<<<<< HEAD
-                dx -= 5  
-=======
-                dx -= 10.5  
->>>>>>> 8beac81db69b059f92566ff79c34ae8c94755cc2
+                dx -= 10
                 if self.rect.x == 0:
                     self.counter +=1
                     walk_cooldown = 5
